@@ -256,20 +256,7 @@ contract LTN is ERC20Interface, Owned {
 
 
     // ------------------------------------------------------------------------
-    // Tokens burn for Owner
-    // ------------------------------------------------------------------------
-    function burnTokensOwner(address burn, uint256 tokens) public onlyOwner returns (bool success) {
-        require(tokens <= balances[burn]);
-        require(tokens != 0);
-        balances[burn] = balances[burn].sub(tokens);
-        balances[address(0)] = balances[address(0)].add(tokens);
-        Transfer(burn, address(0), tokens);
-        return true;
-    }    
-
-
-    // ------------------------------------------------------------------------
-    // Tokens burn for everyone
+    // Tokens burn
     // ------------------------------------------------------------------------
     function burnTokens(uint256 tokens) public returns (bool success) {
         require(tokens <= balances[msg.sender]);
@@ -306,7 +293,6 @@ contract LTN is ERC20Interface, Owned {
     }
 
     function setSaleAddress(address newSaleAddress) public onlyOwner returns (bool) {
-        require(newSaleAddress != 0x0);
         saleAddress = newSaleAddress;
         return true;
     }

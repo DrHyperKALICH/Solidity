@@ -39,12 +39,13 @@ contract ERC20Interface {
 
 // ----------------------------------------------------------------------------
 // Owned contract
+// beneficiary - owner's multi signature wallet
 // ----------------------------------------------------------------------------
 
 contract Owned {
     address public owner;
     address public newOwner;
-    address public beneficiary = 0x71121576B469EE5320f9891570a5D9C75659D1b1;
+    address public beneficiary = 0x404c832bbed4e54139bc3c7c543527f0ff97592f;
 
     event OwnershipTransferred(address indexed _from, address indexed _to);
 
