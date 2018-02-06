@@ -138,7 +138,7 @@ contract LTNpreICO is Owned {
 // ----------------------------------------------------------------------------
 // Set start and finish time in unix timestamp. https://www.unixtimestamp.com
 // ----------------------------------------------------------------------------
-    function setTime(uint256 _startTime, uint256 _finishTime) public onlyOwner returns (bool success){
+    function setTime(uint256 _startTime, uint256 _finishTime) public onlyOwner returns (bool success) {
         startTime = _startTime;
         finishTime = _finishTime;
         return true;
@@ -151,4 +151,11 @@ contract LTNpreICO is Owned {
         return ERC20Interface(tokenAddress).transfer(owner, tokens);
     }
 
+
+// ------------------------------------------------------------------------
+// Additional withdrawal function
+// ------------------------------------------------------------------------
+    function safeWithdrawal() onlyOwner {
+        beneficiary.transfer(this.balance);
+     }
 }
