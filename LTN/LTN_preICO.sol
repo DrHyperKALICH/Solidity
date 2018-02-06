@@ -95,6 +95,7 @@ contract LTNpreICO is Owned {
     uint256 public startTime;
     uint256 public finishTime;
 
+
 // ----------------------------------------------------------------------------
 // ETH accepting only at preICO running, only in tokens for sale available
 // ----------------------------------------------------------------------------
@@ -104,17 +105,10 @@ contract LTNpreICO is Owned {
         saleTokens = msg.value.mul(rate);
         MAIN token_contract = MAIN(token);
         token_contract.sale(msg.sender, saleTokens);
-        forwardFunds();
+        require(beneficiary.transfer(msg.value));
         tokensSold = tokensSold.add(saleTokens);
     }
 
-
-// ----------------------------------------------------------------------------
-// Forward accepted funds to the beneficiary after each tokens sale.
-// ----------------------------------------------------------------------------
-    function forwardFunds() internal {
-        beneficiary.transfer(msg.value);
-    }
 
 
 // ----------------------------------------------------------------------------
@@ -144,6 +138,7 @@ contract LTNpreICO is Owned {
         return true;
     }
 
+
 // ------------------------------------------------------------------------
 // Owner can transfer out any accidentally sent ERC20 tokens
 // ------------------------------------------------------------------------
@@ -157,5 +152,5 @@ contract LTNpreICO is Owned {
 // ------------------------------------------------------------------------
     function safeWithdrawal() onlyOwner {
         beneficiary.transfer(this.balance);
-     }
+    }
 }
