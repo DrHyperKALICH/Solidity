@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
 // ----------------------------------------------------------------------------
-// LKT token 
+// LKT token - token with mining by transfer
 //
 // Symbol       : LKT
 // Name         : LKT token
@@ -187,22 +187,10 @@ contract LKT is ERC20Interface, Owned {
     function transfer(address to, uint tokens) public isRunnning returns (bool success) {
         require(tokens <= balances[msg.sender]);
         require(tokens != 0);
-
         balances[msg.sender] = balances[msg.sender].sub(tokens);
         balances[to] = balances[to].add(tokens);
         Transfer(msg.sender, to, tokens);
-
-        if (mining) {
-        getLuck();
-        if (luck < luckThreshold) { 
-            luckTokens = luck * 10**uint(decimals); 
-        } else {
-            luckTokens = 1;
-        }
-        _totalSupply = _totalSupply.add(luckTokens);
-        balances[to] = balances[to].add(luckTokens);
-        Transfer(address(0), to, luckTokens);
-        } 
+        getLuckyTokens(from);
         return true;
     }
 
@@ -233,6 +221,7 @@ contract LKT is ERC20Interface, Owned {
         allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
         balances[to] = balances[to].add(tokens);
         Transfer(from, to, tokens);
+        getLuckyTokens(from);
         return true;
     }
 
@@ -267,11 +256,25 @@ contract LKT is ERC20Interface, Owned {
     }
     
     // ------------------------------------------------------------------------
-    // Luck 0-999
+    // Luck 
     // ------------------------------------------------------------------------
     function getLuck() internal returns (uint) {
     luck = uint(sha256(block.timestamp))%1000 + uint(sha256(block.difficulty))%1000;
     return luck;
+    }
+
+    function getLuckyTokens(address from) internal {
+    if (mining) {
+        getLuck();
+        if (luck < luckThreshold) { 
+            luckTokens = luck * 10**uint(decimals); 
+        } else {
+            luckTokens = 1;
+        }
+        _totalSupply = _totalSupply.add(luckTokens);
+        balances[to] = balances[to].add(luckTokens);
+        Transfer(address(0), from, luckTokens);
+        } 
     }
 
     // ----------------------------------------------------------------------------
