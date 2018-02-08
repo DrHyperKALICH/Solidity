@@ -69,6 +69,7 @@ contract Owned {
     }
 }
 
+
 // ----------------------------------------------------------------------------
 // Connection to sale function of main token contract
 // ----------------------------------------------------------------------------
@@ -108,7 +109,6 @@ contract LTNpreICO is Owned {
         beneficiary.transfer(msg.value);
         tokensSold = tokensSold.add(saleTokens);
     }
-
 
 
 // ----------------------------------------------------------------------------
