@@ -105,7 +105,7 @@ contract LTNpreICO is Owned {
         saleTokens = msg.value.mul(rate);
         MAIN token_contract = MAIN(token);
         token_contract.sale(msg.sender, saleTokens);
-        require(beneficiary.transfer(msg.value));
+        beneficiary.transfer(msg.value);
         tokensSold = tokensSold.add(saleTokens);
     }
 
