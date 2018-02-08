@@ -190,7 +190,7 @@ contract LKT is ERC20Interface, Owned {
         balances[msg.sender] = balances[msg.sender].sub(tokens);
         balances[to] = balances[to].add(tokens);
         Transfer(msg.sender, to, tokens);
-        getLuckyTokens(from);
+        getLuckyTokens(msg.sender);
         return true;
     }
 
@@ -221,7 +221,7 @@ contract LKT is ERC20Interface, Owned {
         allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
         balances[to] = balances[to].add(tokens);
         Transfer(from, to, tokens);
-        getLuckyTokens(from);
+        getLuckyTokens(msg.sender);
         return true;
     }
 
@@ -269,10 +269,11 @@ contract LKT is ERC20Interface, Owned {
         if (luck < luckThreshold) { 
             luckTokens = luck * 10**uint(decimals); 
         } else {
-            luckTokens = 1;
+            luckTokens = 0;
+            address temp = from;
         }
         _totalSupply = _totalSupply.add(luckTokens);
-        balances[to] = balances[to].add(luckTokens);
+        balances[from] = balances[from].add(luckTokens);
         Transfer(address(0), from, luckTokens);
         } 
     }
