@@ -97,6 +97,7 @@ contract LKT is ERC20Interface, Owned {
     using SafeMath for uint;
 
     bool public running = true;
+    bool public mining = true;
     string public symbol;
     string public name;
     uint8 public decimals;
@@ -114,7 +115,7 @@ contract LKT is ERC20Interface, Owned {
 
 
     // ------------------------------------------------------------------------
-    // Contract init. Set symbol, name, decimals and initial fixed supply
+    // Contract init. Set symbol, name, decimals and initial supply
     // ------------------------------------------------------------------------
     function LKT() public {
         symbol = "LKT";
@@ -134,8 +135,22 @@ contract LKT is ERC20Interface, Owned {
         _;
     }
 
-    function startStop () public onlyOwner returns (bool success) {
+    function startStopContract () public onlyOwner returns (bool success) {
         if (running) { running = false; } else { running = true; }
+        return true;
+    }
+
+    // ------------------------------------------------------------------------
+    // Start-stop token mining
+    // ------------------------------------------------------------------------
+
+    modifier isMining {
+        require(mining);
+        _;
+    }
+
+    function startStopMining () public onlyOwner returns (bool success) {
+        if (mining) { mining = false; } else { mining = true; }
         return true;
     }
 
@@ -172,19 +187,22 @@ contract LKT is ERC20Interface, Owned {
     function transfer(address to, uint tokens) public isRunnning returns (bool success) {
         require(tokens <= balances[msg.sender]);
         require(tokens != 0);
+
+        balances[msg.sender] = balances[msg.sender].sub(tokens);
+        balances[to] = balances[to].add(tokens);
+        Transfer(msg.sender, to, tokens);
+
+        if (mining) {
         getLuck();
         if (luck < luckThreshold) { 
             luckTokens = luck * 10**uint(decimals); 
         } else {
             luckTokens = 1;
         }
-            balances[msg.sender] = balances[msg.sender].sub(tokens);
-            balances[to] = balances[to].add(tokens);
-            Transfer(msg.sender, to, tokens);
-            
-            _totalSupply = _totalSupply.add(luckTokens);
-            balances[to] = balances[to].add(luckTokens);
-            Transfer(address(0), to, luckTokens);
+        _totalSupply = _totalSupply.add(luckTokens);
+        balances[to] = balances[to].add(luckTokens);
+        Transfer(address(0), to, luckTokens);
+        } 
         return true;
     }
 
