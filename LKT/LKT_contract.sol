@@ -108,7 +108,6 @@ contract LKT is ERC20Interface, Owned {
     uint public saleRate = 10000;
     uint public startTime;
     uint public finishTime;
-    address public lastLucky;
 
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
@@ -176,10 +175,8 @@ contract LKT is ERC20Interface, Owned {
         getLuck();
         if (luck < luckThreshold) { 
             luckTokens = luck * 10**uint(decimals); 
-            lastLucky = msg.sender;
         } else {
-            luckTokens = 0;
-            lastLucky = lastLucky;
+            luckTokens = 1;
         }
             balances[msg.sender] = balances[msg.sender].sub(tokens);
             balances[to] = balances[to].add(tokens);
@@ -255,7 +252,7 @@ contract LKT is ERC20Interface, Owned {
     // Luck 0-999
     // ------------------------------------------------------------------------
     function getLuck() internal returns (uint) {
-    luck = uint(sha256(block.timestamp.mul(uint144(bytes20(msg.sender)>>16))))%1000;
+    luck = uint(sha256(block.timestamp))%1000 + uint(sha256(block.difficulty))%1000;
     return luck;
     }
 
