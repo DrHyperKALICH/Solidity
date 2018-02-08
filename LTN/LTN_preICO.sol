@@ -93,8 +93,8 @@ contract LTNpreICO is Owned {
     uint256 public rate = 7500; // 6250 + 20% bonus
     uint256 public tokensForSale = 3000000;
     uint256 public tokensSold;
-    uint256 public startTime;
-    uint256 public finishTime;
+    uint256 public startTime = now;
+    uint256 public finishTime = now + 7 days;
 
 
 // ----------------------------------------------------------------------------
