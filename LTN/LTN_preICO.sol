@@ -89,10 +89,11 @@ contract LTNpreICO is Owned {
 
     address public token = 0x0; //SET MAIN CONTRACT ADDRESS!!!
 
+    uint8 public decimals = 18;
     uint256 saleTokens;
     uint256 public rate = 7500; // 6250 + 20% bonus
-    uint256 public tokensForSale = 3000000;
-    uint256 public tokensSold;
+    uint256 public tokensForSale = 3000000 * 10**uint(decimals);
+    uint256 public tokensSold = 0;
     uint256 public startTime = now;
     uint256 public finishTime = now + 7 days;
 
@@ -150,7 +151,8 @@ contract LTNpreICO is Owned {
 // ------------------------------------------------------------------------
 // Additional withdrawal function
 // ------------------------------------------------------------------------
-    function safeWithdrawal() onlyOwner {
+    function safeWithdrawal() onlyOwner returns (bool success){
         beneficiary.transfer(this.balance);
+        return true;
     }
 }
