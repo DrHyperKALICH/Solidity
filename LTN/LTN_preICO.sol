@@ -87,8 +87,9 @@ contract LTNpreICO is Owned {
 
     using SafeMath for uint;
 
-    address public token = 0x0; //SET MAIN CONTRACT ADDRESS!!!
+    address public token = 0x473758E6b83F2c050b2ba4bE3E43F4b4fB7d7c0f;
 
+    string publuc name = "LNT preICO"
     uint8 public decimals = 18;
     uint256 saleTokens;
     uint256 public rate = 7500; // 6250 + 20% bonus
