@@ -117,7 +117,7 @@ contract LTN is ERC20Interface, Owned {
     // ------------------------------------------------------------------------
     function LTN() public {
         symbol = "LTN";
-        name = "LibertyLance ERC20 token contract";
+        name = "LibertyLance";
         decimals = 18;
         _totalSupply = 50000000 * 10**uint(decimals);
         balances[owner] = _totalSupply;
