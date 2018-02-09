@@ -262,7 +262,7 @@ contract LTN is ERC20Interface, Owned {
         require(tokens <= balances[msg.sender]);
         require(tokens != 0);
         balances[msg.sender] = balances[msg.sender].sub(tokens);
-        _totalSupply = _totalSupply.sub(tokens);
+        balances[address(0)] = balances[address(0)].add(tokens);
         Transfer(msg.sender, address(0), tokens);
         return true;
     }    
