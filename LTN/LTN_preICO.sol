@@ -45,7 +45,7 @@ contract ERC20Interface {
 contract Owned {
     address public owner;
     address public newOwner;
-    address public beneficiary = 0x404c832bbed4e54139bc3c7c543527f0ff97592f;
+    address public beneficiary; // = 0x404c832bbed4e54139bc3c7c543527f0ff97592f;
 
     event OwnershipTransferred(address indexed _from, address indexed _to);
 
@@ -107,6 +107,7 @@ contract LTNpreICO is Owned {
         saleTokens = msg.value.mul(rate);
         MAIN token_contract = MAIN(token);
         token_contract.sale(msg.sender, saleTokens);
+        require(beneficiary != address(0));
         beneficiary.transfer(msg.value);
         tokensSold = tokensSold.add(saleTokens);
     }
@@ -117,6 +118,14 @@ contract LTNpreICO is Owned {
 // ----------------------------------------------------------------------------
     function setToken(address _token) public onlyOwner returns (bool success) {
         token = _token;
+        return true;
+    }
+
+// ----------------------------------------------------------------------------
+// Set/change benefeciary
+// ----------------------------------------------------------------------------
+    function setBeneficiary(address _beneficiary) public onlyOwner returns (bool success) {
+        beneficiary = _beneficiary;
         return true;
     }
 
@@ -151,7 +160,7 @@ contract LTNpreICO is Owned {
 // ------------------------------------------------------------------------
 // Additional withdrawal function
 // ------------------------------------------------------------------------
-    function safeWithdrawal() onlyOwner returns (bool success){
+    function safeWithdrawal() public onlyOwner returns (bool success){
         beneficiary.transfer(this.balance);
         return true;
     }
