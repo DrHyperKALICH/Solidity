@@ -170,7 +170,7 @@ contract LTN is ERC20Interface, Owned {
     // Total supply
     // ------------------------------------------------------------------------
     function totalSupply() public constant returns (uint) {
-        return _totalSupply  - balances[address(0)];
+        return _totalSupply;
     }
 
 
@@ -262,7 +262,7 @@ contract LTN is ERC20Interface, Owned {
         require(tokens <= balances[msg.sender]);
         require(tokens != 0);
         balances[msg.sender] = balances[msg.sender].sub(tokens);
-        balances[address(0)] = balances[address(0)].add(tokens);
+        _totalSupply = _totalSupply.sub(tokens);
         Transfer(msg.sender, address(0), tokens);
         return true;
     }    
