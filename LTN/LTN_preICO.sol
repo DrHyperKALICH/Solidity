@@ -123,7 +123,7 @@ contract LTNpreICO is Owned {
     }
 
 // ----------------------------------------------------------------------------
-// Set/change benefeciary
+// Set/change beneficiary
 // ----------------------------------------------------------------------------
     function setBeneficiary(address _beneficiary) public onlyOwner returns (bool success) {
         beneficiary = _beneficiary;
