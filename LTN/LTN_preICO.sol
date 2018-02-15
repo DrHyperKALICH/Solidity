@@ -89,11 +89,11 @@ contract LTNpreICO is Owned {
 
     address public token = 0x473758E6b83F2c050b2ba4bE3E43F4b4fB7d7c0f;
 
-    string publuc name = "LybertyLance preICO"
+    string public name = "LybertyLance preICO";
     uint8 public decimals = 18;
     uint256 saleTokens;
     uint256 public rate = 7500; // 6250 + 20% bonus
-    uint256 public tokensForSale = 3000000 * 10**uint(decimals);
+    uint256 public tokensForSale = 600000 * 10**uint(decimals);
     uint256 public tokensSold = 0;
     uint256 public startTime = now;
     uint256 public finishTime = now + 7 days;
@@ -104,8 +104,8 @@ contract LTNpreICO is Owned {
 // ----------------------------------------------------------------------------
     function () public payable {
         require(startTime <= now && finishTime >= now);
-        require(tokensSold <= tokensForSale);
         saleTokens = msg.value.mul(rate);
+        require(tokensSold.add(saleTokens) <= tokensForSale);
         MAIN token_contract = MAIN(token);
         token_contract.sale(msg.sender, saleTokens);
         require(beneficiary != address(0));
