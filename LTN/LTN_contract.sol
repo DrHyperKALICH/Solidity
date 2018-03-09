@@ -137,7 +137,7 @@ contract LTN is ERC20Interface, Owned {
     // Team tokens unfreeze 
     // 25% of freezed tokens each 6 months
     // 2500000 of freezed 10000000 tokens each 180 days 
-    // from contract deplay time
+    // from contract deploy time
     // ------------------------------------------------------------------------
 
     function unfreezeTeamTokens(address unfreezeaddress) public onlyOwner returns (bool success) {
