@@ -7,8 +7,6 @@ pragma solidity ^0.4.21;
 // Name         : Neuromachine
 // Total supply : 4.958.333.333,000000000000000000 (burnable)
 // Decimals     : 18
-//
-// 2018 (c) Sergey Kalich
 // ----------------------------------------------------------------------------
 
 
